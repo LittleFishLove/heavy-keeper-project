@@ -32,14 +32,14 @@ class ssummary
             rep(i,0,N)head[i]=Left[i]=Right[i]=0;
             rep(i,0,len2-1)head2[0]=0;
             tot=0;
-            rep(i,1,M+2)ID[i]=i;
+            rep(i,1,M+2)ID[i]=i; // ID[i] = i, 在初始化的时候为其赋值1~M+2
             num=M+2;
             Right[0]=N;
             Left[N]=0;
         }
         int getid()
         {
-            int i=ID[num--];
+            int i=ID[num--]; // ID[i] = i, 在初始化的时候为其赋值1~M+2，获取ID时将其倒着取出并在取出后将其置为0
             last[i]=Next[i]=sum[i]=Next2[i]=0;
             return i;
         }

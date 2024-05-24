@@ -36,8 +36,8 @@ int main()
     int m=100000;  // the number of flows
     // preparing heavykeeper
     int hk_M;
-    for (hk_M=1; 32*hk_M*HK_d+432*K<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
-    heavykeeper *hk; hk=new heavykeeper(hk_M,K); hk->clear();
+    for (hk_M=1; 32*hk_M*HK_d+432*K<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--; // 这一步分配合理内存,HK_d是Sketch中array的个数hk_M应该是array的宽度，为什么乘以32并加上432*K呢？ ---→> 32是int的宽度，432暂时不明白，MEM应该是单位为MB的内存字节数。即要根据分配的内存来确定array的宽度
+    heavykeeper *hk; hk=new heavykeeper(hk_M,K); hk->clear();//根据array的宽度hk_M and topk's K to create heavykeeper. Note that, the heavykeeper sketch is created when the heavykeeper is created, because it is a private member of heavykeeper.
 
     // preparing spacesaving
     int ss_M;
@@ -54,12 +54,12 @@ int main()
     for (css_M=1; 179*css_M+4*css_M*log(css_M)/log(2)<=MEM*1024*8; css_M++);
     CSS *css; css=new CSS(css_M,K); css->clear();
     // Inserting
-    for (int i=1; i<=m; i++)
+    for (int i=1; i<=m; i++) //int m=100000; the number of flows
 	{
 	    if (i%(m/10)==0) cout<<"Insert "<<i<<endl;
 		string s=Read();
-		B[s]++;
-		hk->Insert(s);
+		B[s]++;// B contains the counters for all the flows in a file stream.
+		hk->Insert(s);   // 遍历文件中的报文，将其插入到heavykeeper中
 		ss->Insert(s);
 		LC->Insert(s,i/LC_M); if (i%LC_M==0) LC->clear(i/LC_M);
 		css->Insert(s);

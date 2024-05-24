@@ -24,17 +24,17 @@ class heavykeeper
         BOBHash64 * bobhash;
         int K,M2;
     public:
-        heavykeeper(int M2,int K):M2(M2),K(K) {ss=new ssummary(K); ss->clear(); bobhash=new BOBHash64(1005);}
+        heavykeeper(int M2,int K):M2(M2),K(K) {ss=new ssummary(K); ss->clear(); bobhash=new BOBHash64(1005);}// create ssummary object and BOBHash64 object
         void clear()
         {
             for (int i=0; i<HK_d; i++)
-                for (int j=0; j<=M2+5; j++) HK[i][j].C=HK[i][j].FP=0;
+                for (int j=0; j<=M2+5; j++) HK[i][j].C=HK[i][j].FP=0;// WHY: j <= M2+5?????
         }
         unsigned long long Hash(string ST)
         {
             return (bobhash->run(ST.c_str(),ST.size()));
         }
-        void Insert(string x)
+        void Insert(string x)// 参考论文中的Algorithm 1
         {
             bool mon=false;
             int p=ss->find(x);
@@ -69,8 +69,8 @@ class heavykeeper
                 if (maxv-(ss->getmin())==1 || ss->tot<K)
                 {
                     int i=ss->getid();
-                    ss->add2(ss->location(x),i);
-                    ss->str[i]=x;
+                    ss->add2(ss->location(x),i);// ss->location return the location of x by hashing x; add2: 将ID i 插入到ss中head2[ss->location(x)]处
+                    ss->str[i]=x;  // 在论文中提到要使用array代替min-heap来节省运行时间，因此这里x，即flow ID被插入str[i]位置，sum[i]被赋值为maxv
                     ss->sum[i]=maxv;
                     ss->link(i,0);
                     while(ss->tot>K)
