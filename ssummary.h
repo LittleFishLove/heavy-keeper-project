@@ -17,9 +17,9 @@ class ssummary
 {
     public:
         int tot;
-        int sum[M+10],K,last[M+10],Next[M+10],ID[M+10];
+        int sum[M+10],K,last[M+10],Next[M+10],ID[M+10]; // sum[M+10] stores the counters of flows; 
         int head[N+10],Left[N+10],Right[N+10],num;
-        string str[M+10];
+        string str[M+10];// Store flow id, i.e., 5-tuple
         int head2[len2+10],Next2[M+10];
         BOBHash32 * bobhash;
 
